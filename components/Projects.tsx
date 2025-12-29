@@ -1,59 +1,49 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Code2, PenTool } from 'lucide-react';
 import ProjectModal, { ProjectType } from './ProjectModal';
-import { supabase } from '@/lib/supabase'; // Pastikan path ini benar
+import { supabase } from '@/lib/supabase'; 
 
 export default function Projects() {
-    const [activeTab, setActiveTab] = useState<'fullstack' | 'uiux'>('fullstack');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
-
-    // State untuk menyimpan data dari database
     const [projects, setProjects] = useState<ProjectType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // FETCH DATA DARI SUPABASE
     useEffect(() => {
         async function fetchProjects() {
             setIsLoading(true);
-
+            
+            // Ambil SEMUA data, urutkan dari yang terbaru (id descending)
             const { data, error } = await supabase
                 .from('projects')
-                .select('*');
+                .select('*')
+                .order('id', { ascending: false });
 
             if (error) {
-                console.error("Error mengambil data:", error.message);
+                console.error("Error fetching projects:", error.message);
             }
 
             if (data) {
                 const formattedData: ProjectType[] = data.map((item: any) => {
-
-                    // --- LOGIKA PERBAIKAN ARRAY ---
+                    // Logika membersihkan format Tech Stack (array vs string)
                     let techArray: string[] = [];
-
                     if (Array.isArray(item.tech_stack)) {
-                        // Jika sudah array (tipe kolom json/text[]), pakai langsung
                         techArray = item.tech_stack;
                     } else if (typeof item.tech_stack === 'string') {
-                        // Jika string dipisah koma (contoh: "React, Next.js, CSS")
-                        // Kita pecah (split) berdasarkan koma
-                        techArray = item.tech_stack.split(',').map((t: string) => t.trim());
+                        techArray = item.tech_stack.split(',').map((t: string) => t.trim().replace(/['"]+/g, ''));
                     }
-                    // -----------------------------
 
                     return {
                         id: item.id,
                         title: item.title,
-                        category: item.category,
+                        category: item.category, // Menerima text bebas dari input admin
                         image: item.image_url || "/api/placeholder/600/400",
                         shortDesc: item.short_desc,
                         longDesc: item.long_desc,
-                        tech: techArray, // <--- Ganti ini dengan variabel hasil perbaikan
-                        link: item.demo_link,
-                        github: item.repo_link
+                        tech: techArray.filter(t => t.length > 0), // Hapus string kosong
+                        link: item.demo_link || null, // Jika kosong jadi null
+                        github: item.repo_link || null
                     };
                 });
-
                 setProjects(formattedData);
             }
             setIsLoading(false);
@@ -62,66 +52,62 @@ export default function Projects() {
         fetchProjects();
     }, []);
 
-    // Filter project berdasarkan tab aktif
-    const filteredProjects = projects.filter(p => p.category === activeTab);
-
     return (
         <section id="projects" className="py-24 bg-slate-50 px-4">
             <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-8">Proyek Saya</h2>
+                <h2 className="text-3xl font-bold text-center mb-12 text-slate-800">Proyek Saya</h2>
 
-                {/* Tab Controls */}
-                <div className="flex justify-center mb-12">
-                    <div className="bg-white p-1 rounded-full shadow-sm border border-slate-200 flex gap-2">
-                        <button onClick={() => setActiveTab('fullstack')} className={`flex items-center gap-2 px-6 py-2 rounded-full text-sm font-medium transition ${activeTab === 'fullstack' ? 'bg-blue-600 text-white' : 'text-slate-500'}`}>
-                            <Code2 size={16} /> Fullstack
-                        </button>
-                        <button onClick={() => setActiveTab('uiux')} className={`flex items-center gap-2 px-6 py-2 rounded-full text-sm font-medium transition ${activeTab === 'uiux' ? 'bg-purple-600 text-white' : 'text-slate-500'}`}>
-                            <PenTool size={16} /> UI/UX
-                        </button>
-                    </div>
-                </div>
-
-                {/* Loading State */}
                 {isLoading ? (
-                    <div className="text-center py-10 text-slate-500">Memuat proyek...</div>
+                    <div className="text-center py-12 text-slate-500">Memuat data proyek...</div>
                 ) : (
-                    /* Grid Project */
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredProjects.length > 0 ? (
-                            filteredProjects.map((item) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {projects.length > 0 ? (
+                            projects.map((item) => (
                                 <div
                                     key={item.id}
                                     onClick={() => setSelectedProject(item)}
-                                    className="bg-white rounded-xl overflow-hidden border border-slate-100 hover:shadow-xl transition cursor-pointer group"
+                                    className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col h-full"
                                 >
+                                    {/* Gambar dengan rasio tetap 4:3 */}
                                     <div className="w-full aspect-[4/3] overflow-hidden relative bg-slate-200">
                                         <img
                                             src={item.image}
                                             alt={item.title}
                                             className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                         />
+                                        {/* Badge Kategori Melayang */}
+                                        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-slate-700 shadow-sm uppercase tracking-wide">
+                                            {item.category}
+                                        </div>
                                     </div>
-                                    <div className="p-5">
-                                        <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-                                        <p className="text-slate-600 text-sm mb-4 line-clamp-2">{item.shortDesc}</p>
-                                        <div className="flex flex-wrap gap-2">
+
+                                    <div className="p-6 flex flex-col flex-grow">
+                                        <h3 className="font-bold text-xl text-slate-900 mb-2">{item.title}</h3>
+                                        <p className="text-slate-600 text-sm mb-4 line-clamp-2 flex-grow">{item.shortDesc}</p>
+                                        
+                                        {/* Tags Tech Stack (Max 3) */}
+                                        <div className="flex flex-wrap gap-2 mt-auto">
                                             {item.tech && item.tech.slice(0, 3).map((t, i) => (
-                                                <span key={i} className="text-xs bg-slate-100 px-2 py-1 rounded">{t}</span>
+                                                <span key={i} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded font-medium">
+                                                    {t}
+                                                </span>
                                             ))}
+                                            {item.tech.length > 3 && (
+                                                <span className="text-xs text-slate-400 px-1 py-1">+{item.tech.length - 3}</span>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div className="col-span-3 text-center py-10 text-slate-400">
-                                Belum ada proyek di kategori ini.
+                            <div className="col-span-full text-center py-12 bg-white rounded-xl border border-dashed border-slate-300 text-slate-400">
+                                Belum ada proyek yang ditambahkan.
                             </div>
                         )}
                     </div>
                 )}
 
-                {/* Modal */}
+                {/* Tampilkan Modal jika ada project yang dipilih */}
                 {selectedProject && (
                     <ProjectModal
                         project={selectedProject}
