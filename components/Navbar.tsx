@@ -10,7 +10,7 @@ export default function Navbar() {
             <div className="max-w-6xl mx-auto px-4">
                 <div className="flex justify-between h-16 items-center">
                     <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                        Portofolio.
+                        Dwikyb
                     </span>
 
                     {/* Desktop */}
