@@ -9,7 +9,7 @@ export default function Home() {
     <main className="min-h-screen bg-slate-50">
       <Navbar />
       <Hero />
-      <Experience /> {/* <--- Pasang di sini */}
+      <Experience />
       <Projects />
       <Footer />
     </main>
