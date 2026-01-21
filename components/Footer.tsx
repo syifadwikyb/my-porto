@@ -52,7 +52,7 @@ export default function Footer() {
 
                     <div className="flex gap-4">
                         <SocialLink href="https://github.com/syifadwikyb" icon={<Github size={20} />} />
-                        <SocialLink href="https://linkedin.com/in/syifadwikybasamala" icon={<Linkedin size={20} />} />
+                        <SocialLink href="https://linkedin.com/in/syifadwiky" icon={<Linkedin size={20} />} />
                         <SocialLink href="https://instagram.com/dwikyb_" icon={<Instagram size={20} />} />
                         <SocialLink href="mailto:syifadwikyb@gmail.com" icon={<Mail size={20} />} />
                     </div>                    
