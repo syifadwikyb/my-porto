@@ -6,8 +6,11 @@ export default function Hero() {
         <section id="about" className="pt-32 pb-20 px-4 max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12">
             <div className="flex-1 text-center md:text-left space-y-6">
                 <h2 className="text-xl font-medium text-blue-600">Halo, saya Syifa Dwiky Basamala 👋</h2>
-                <h1 className="text-4xl md:text-6xl font-bold text-slate-900">
-                    Fullstack Developer & <br /> UI/UX Designer
+                <h1 className="text-4xl md:text-6xl font-bold leading-tight text-slate-900">
+                    Fullstack Developer &
+                    <span className="block bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+                        UI/UX Designer
+                    </span>
                 </h1>
                 <p className="text-lg text-slate-600">
                     Menciptakan solusi digital yang tidak hanya berfungsi dengan baik, tapi juga terlihat menawan.
