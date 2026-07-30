@@ -52,8 +52,7 @@ export default function Experience() {
                                 {/* Kanan (Konten) */}
                                 <div className="sm:w-2/3">
                                     <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
-
-                                        {/* Header Mobile */}
+                                    
                                         <div className="sm:hidden mb-2">
                                             <h3 className="font-bold text-slate-900 text-lg">{exp.company}</h3>
                                             <span className="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded inline-block mt-1">
