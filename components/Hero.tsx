@@ -7,20 +7,20 @@ export default function Hero() {
             <div className="flex-1 text-center md:text-left">
                 <h2 className="text-xl font-medium text-blue-600">Halo, saya Syifa Dwiky Basamala</h2>
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight text-slate-900">
-                    Fullstack Developer &
+                    Software Development &
                     <span className="block bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
                         UI/UX Designer
                     </span>
                 </h1>
                 <p className="text-lg text-slate-600 text-justify px-4 lg:px-0 mt-4">
-                    Fresh Graduate Teknik Komputer Universitas Diponegoro (IPK 3.69/4.0) dengan pengalaman sebagai Fullstack Developer dan UI/UX Designer melalui startup, Bangkit Academy, serta berbagai proyek pengembangan aplikasi web dan mobile. Peraih Juara 2 UI/UX Competition Tingkat Nasional 2025 dengan pengalaman dalam merancang antarmuka pengguna, mengimplementasikan desain menjadi aplikasi fungsional, serta mengintegrasikan sistem berbasis web dan mobile. Memiliki keahlian dalam pengembangan aplikasi web menggunakan Laravel, ReactJS, NextJS, ExpressJS, dan FastAPI, serta perancangan UI/UX menggunakan Figma dan Adobe Illustrator. Berpengalaman mengembangkan solusi berbasis web dan mobile mulai dari perancangan antarmuka hingga implementasi sistem dengan fokus pada kebutuhan pengguna.
+                    Fresh Graduate Teknik Komputer Universitas Diponegoro (IPK 3.69/4.0) dengan pengalaman sebagai Software Developer dan UI/UX Designer melalui startup, Bangkit Academy, serta berbagai proyek web dan mobile. Peraih Juara 2 UI/UX Competition Tingkat Nasional 2025. Memiliki keahlian dalam pengembangan aplikasi menggunakan Laravel, ReactJS, NextJS, ExpressJS, dan FastAPI, serta perancangan UI/UX menggunakan Figma dan Adobe Illustrator. Berpengalaman mengubah kebutuhan pengguna menjadi desain dan aplikasi fungsional.
                 </p>
 
                 {/* Social Media Links */}
                 <div className="flex gap-4 justify-center md:justify-start pt-2">
                     <SocialIcon href="https://github.com/syifadwikyb" icon={<Github size={20} />} />
                     <SocialIcon href="https://linkedin.com/in/syifadwikyb" icon={<Linkedin size={20} />} />
-                    <SocialIcon href="https://instagram.com/dwikyb_" icon={<Instagram size={20} />} />
+                    <SocialIcon href="https://instagram.com/qy_creative" icon={<Instagram size={20} />} />
                 </div>
             </div>
 
